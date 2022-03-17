@@ -6,6 +6,7 @@ var CACHE_NAME = 'red-toaster-cache';
 // Файлы, необходимые для работы приложения в автономном режиме
 //
 var REQUIRED_FILES = [
+    './',
     'index.html',
     'app.js',
     //'favicon-16x16.png',
