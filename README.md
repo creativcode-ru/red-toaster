@@ -3,6 +3,7 @@
 
 
 [Добавьте манифест веб-приложения, web.dev](https://web.dev/add-manifest/?utm_source=devtools)  
+[Display Mode Override Proposal](https://github.com/WICG/display-override/blob/main/explainer.md)  
 [Your Web App Manifest](https://www.seochecker.it/web-app-manifest-generator)  
 
 ### документация
