@@ -45,15 +45,18 @@ function testOrientation() {
 
     var msg = "";
     if (orientation === "landscape-primary") {
-        msg = "landscape-primary";
+        msg = "горизонтально";
     } else if (orientation === "landscape-secondary") {
-        msg = "landscape-secondar ....экран вверх ногами!";
-    } else if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
-        msg = "portrait-secondary || portrait-primary поверните устройство горизонтально";
+        msg = "гортзонтальное вверх ногами!";
+    } else if (orientation === "portrait-primary") {
+        msg = "вертикально";
+    } else if (orientation === "portrait-secondary") {
+        msg = "вертикально вверх ногами!";
     } else if (orientation === undefined) {
         msg = "браузер не поддерживает ориентацию экрана :(";
     }
 
+    msg = "[orientation]:" + orientation + " - " + msg;
     console.log(msg);
     showMsg(msg);
 };
