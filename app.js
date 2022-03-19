@@ -1,6 +1,11 @@
 ﻿window.addEventListener("DOMContentLoaded", event => {
     document.querySelector("#btnTest").addEventListener("click", testOrientation);
-    console.log("#btnTest => click");
+    document.querySelector("#lockPortrait").addEventListener("click", lockPortrait);
+    document.querySelector("#unlockScreen").addEventListener("click", unlockScreen);
+
+    screen.orientation.addEventListener('change', function () {
+        showMsg('Текущая ориентация изменилось: ' + screen.orientation.type);
+    });
 });
 
 
@@ -34,32 +39,65 @@ function showResult(text) {
 }
 
 
-//ориетнтация экрана ================================================
-
+//ориетнтация экрана  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
 
 function testOrientation() {
     console.log("#btnTest * click");
 
-    var orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+    let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
     console.log("[orientation]:" + orientation);
 
-    var msg = "";
+    let msg = "";
     if (orientation === "landscape-primary") {
         msg = "горизонтально";
     } else if (orientation === "landscape-secondary") {
-        msg = "гортзонтальное вверх ногами!";
+        msg = "гортзонтальное вверх ногами! Нижняя часть устройства слева";
     } else if (orientation === "portrait-primary") {
         msg = "вертикально";
     } else if (orientation === "portrait-secondary") {
         msg = "вертикально вверх ногами!";
     } else if (orientation === undefined) {
-        msg = "браузер не поддерживает ориентацию экрана :(";
+        msg = "* * * браузер не поддерживает ориентацию экрана :(";
     }
 
-    msg = "[orientation]:" + orientation + " - " + msg;
+
+    let current_mode = screen.orientation;
+
+    let screenHeight = window.screen.height;
+    let screenWidth = window.screen.width;
+    let availHeight = window.screen.availHeight; //доступная высота экрана
+    let availWidth = window.screen.availWidth;
+
+    let colorDepth = window.screen.colorDepth;
+    let pixleDepth = window.screen.pixelDepth
+
+    msg = "[orientation]:" + orientation + " - " + msg
+        + ";<br /> type=" + current_mode.type + "; angle=" + current_mode.angle
+        + ";<br /> высота=" + screenHeight + " доступно: " + availHeight
+        + ";<br /> ширина=" + availWidth + " доступно: " + availWidth
+        + ";<br /> разрядность цвета=" + colorDepth + " глубина пикселей: " + pixleDepth
     console.log(msg);
     showMsg(msg);
 };
+
+
+async function lockPortrait() {
+    console.log("lockPortrait * click");
+
+    screen.orientation.lock("portrait")
+        .then(function () {
+            showResult('Экран заблокирован вертикально');
+        })
+        .catch(function (error) {
+            showResult("Ошибка при блокировки экрана: " + error);
+        });
+}
+
+function unlockScreen() {
+    console.log("unlockScreen * click");
+    screen.orientation.unlock();
+    showResult('Экран разблокирован');
+}
 
 
 function showMsg(text) {
