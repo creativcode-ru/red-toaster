@@ -18,4 +18,4 @@
 ## Ориентация экрана  
 [Screen.orientation, MDN](https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation)  
 [How to Change Screen Orientation with Javascript](https://usefulangle.com/post/105/javascript-change-screen-orientation)  
-[]()  
+[Display your PWA / website fullscreen](https://dev.to/oncode/display-your-pwa-website-fullscreen-4776)  
