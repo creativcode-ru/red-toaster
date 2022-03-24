@@ -136,7 +136,7 @@ function getPWADisplayMode() {
         msg =  'standalone: safari на iOS';
     } else msg = 'browser';
 
-    showMsg(msg);
+    showMsg('isStandalone: ' + isStandalone + 'document.referrer:' + document.referrer + 'navigator.standalone:' navigator.standalone);
 }
 
 //ИНИЦИАЛИЗАЦИЯ: Прослушивайте событие beforeinstallprompt https://web.dev/customize-install/#proslushivajte-sobytie-beforeinstallprompt  

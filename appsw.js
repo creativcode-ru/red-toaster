@@ -1,4 +1,4 @@
-﻿console.log("Привет, это Service Worker v0-41");
+﻿console.log("Привет, это Service Worker v0-43");
 
 
 //Работа в офлайн *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
