@@ -19,3 +19,6 @@
 [Screen.orientation, MDN](https://developer.mozilla.org/en-US/docs/Web/API/Screen/orientation)  
 [How to Change Screen Orientation with Javascript](https://usefulangle.com/post/105/javascript-change-screen-orientation)  
 [Display your PWA / website fullscreen](https://dev.to/oncode/display-your-pwa-website-fullscreen-4776)  
+
+## Автономный режим приложения   "background_color": "#120000",
+[Check if a PWA is opened as a standalone app or not](https://www.amitmerchant.com/check-if-pwa-opened-as-standalone-app/)  

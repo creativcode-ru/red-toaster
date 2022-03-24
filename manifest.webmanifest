@@ -1,10 +1,10 @@
 {
   "theme_color": "#C10000",
-  "background_color": "#120000",
+  "background_color": "#C10000",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "./",
-  "start_url": "./?standalone=true",
+  "start_url": "./",
   "name": "red-toaster",
   "short_name": "red-toaster",
   "description": "тестирование веб приложений",

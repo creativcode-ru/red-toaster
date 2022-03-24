@@ -22,10 +22,20 @@
         <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
       <![endif] -->
 
+    <style>
+        @media all and (display-mode: standalone) {
+            .install-button {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Red Toaster</h1>
-    <p>v0-33 display:standalone, orientation:portrait</p>
+    <p>v0-4 check display:standalonе</p>
+    <p>
+        <button class="install-button" id="btnApp">Установить как приложение</button> <br /><br />
+    </p>
     <p>
         <button id="btnTest">Проверить</button> <br /><br />
     </p>

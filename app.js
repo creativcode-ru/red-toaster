@@ -6,7 +6,12 @@
     screen.orientation.addEventListener('change', function () {
         showMsg('Текущая ориентация изменилось: ' + screen.orientation.type);
     });
+
+
+
 });
+
+
 
 
 
@@ -103,3 +108,17 @@ function unlockScreen() {
 function showMsg(text) {
     document.querySelector("var").innerHTML = text;
 }
+
+
+//автономный режим  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+window
+    .matchMedia('(display-mode: standalone)')
+    .addEventListener('change', ({ matches }) => {
+        let msg = '';
+        if (matches) {
+            msg = 'display-mode: standalone';
+        } else {
+            msg = 'display-mode: не автономный';
+        }
+        showMsg(msg);
+    });
