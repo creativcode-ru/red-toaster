@@ -134,8 +134,8 @@ function getPWADisplayMode() {
         msg = 'twa: android-app display-mode: standalone';
     } else if (navigator.standalone || isStandalone) {
         msg =  'standalone: safari на iOS';
-    }
-    msg = 'browser';
+    } else msg = 'browser';
+
     showMsg(msg);
 }
 
@@ -170,4 +170,18 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null; //Очистите deferredPrompt, чтобы он мог быть собран мусором
     console.log('PWA was installed'); //При необходимости отправьте событие аналитики, чтобы указать на успешную установку.
     showMsg('PWA установлен в автономном режиме');
+});
+
+//Отслеживайте, когда меняется режим отображения https://web.dev/customize-install/#otslezhivajte-kogda-menyaetsya-rezhim-otobrazheniya
+//Чтобы отслеживать, переключается ли пользователь между режимами standalone и browser, прослушивайте изменения в медиа-запросе display-mode.
+
+window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
+    let displayMode = 'browser';
+    if (evt.matches) {
+        displayMode = 'standalone';
+    }
+    // Log display mode change to analytics
+    console.log('DISPLAY_MODE_CHANGED', displayMode);
+
+    showMsg('DISPLAY_MODE_CHANGED: ' + displayMode);
 });
