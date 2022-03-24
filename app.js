@@ -7,7 +7,7 @@
         showMsg('Текущая ориентация изменилось: ' + screen.orientation.type);
     });
 
-
+    document.querySelector("#btnDisplayMode").addEventListener("click", getPWADisplayMode);
 
 });
 
@@ -111,6 +111,9 @@ function showMsg(text) {
 
 
 //автономный режим  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
+// Отслеживайте, как было запущено PWA https://web.dev/customize-install/#otslezhivajte-kak-bylo-zapusheno-pwa
+//Safari на iOS пока не поддерживает функцию matchMedia(), поэтому потребуется проверять свойство navigator.standalone
+/*
 window
     .matchMedia('(display-mode: standalone)')
     .addEventListener('change', ({ matches }) => {
@@ -122,3 +125,49 @@ window
         }
         showMsg(msg);
     });
+*/
+
+function getPWADisplayMode() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    let msg = '';
+    if (document.referrer.startsWith('android-app://')) {
+        msg = 'twa: android-app display-mode: standalone';
+    } else if (navigator.standalone || isStandalone) {
+        msg =  'standalone: safari на iOS';
+    }
+    msg = 'browser';
+    showMsg(msg);
+}
+
+//ИНИЦИАЛИЗАЦИЯ: Прослушивайте событие beforeinstallprompt https://web.dev/customize-install/#proslushivajte-sobytie-beforeinstallprompt  
+/* Сохраните ссылку на событие и обновите свой пользовательский интерфейс, 
+   чтобы указать, что пользователь может установить ваше PWA.
+ */
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); //Предотвратить появление мини-информационной панели на мобильном телефоне
+    deferredPrompt = e; // Сохраните событие, чтобы его можно было вызвать позже.
+    //showInstallPromotion(); //Показать собственный интерфейс установки PWA
+    showMsg('*** Обновите интерфейс уведомление об установке PWA ***');
+    console.log(`'beforeinstallprompt' event was fired.`); // При желании отправьте событие аналитики о том, что была показана реклама установки PWA.
+});
+
+//УСТАНОВКА
+btnInstall.addEventListener('click', async () => {
+   
+    //hideInstallPromotion(); // Скрыть собственную панель установки
+    showMsg('');
+    deferredPrompt.prompt(); // Показать приглашение установить == это ранее сохраненное событие
+    const {outcome} = await deferredPrompt.userChoice; // Ждем, пока пользователь ответит на приглашение
+    console.log(`User response to the install prompt: ${outcome}`); // При желании отправьте событие аналитики с результатом по выбору пользователя
+    deferredPrompt = null; // Мы использовали подсказку и не можем использовать ее снова, выбросьте ее
+});
+
+//АВТОНОМНЫЙ РЕЖИМ. Определяйте, когда PWA было успешно установлено 
+window.addEventListener('appinstalled', () => {
+     //hideInstallPromotion(); // Повторно скрыть собственный интерфейс установки PWA. Событие deferredPrompt.userChoice может быть недоступно, если пользовательвыбрал иной способ установки
+    deferredPrompt = null; //Очистите deferredPrompt, чтобы он мог быть собран мусором
+    console.log('PWA was installed'); //При необходимости отправьте событие аналитики, чтобы указать на успешную установку.
+    showMsg('PWA установлен в автономном режиме');
+});

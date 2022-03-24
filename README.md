@@ -22,3 +22,5 @@
 
 ## Автономный режим приложения   "background_color": "#120000",
 [Check if a PWA is opened as a standalone app or not](https://www.amitmerchant.com/check-if-pwa-opened-as-standalone-app/)  
+[Как предоставлять собственный процесс установки в приложении, web.dev](https://web.dev/customize-install/#detect-launch-type)  
+[Шаблоны продвижения установки PWA](https://web.dev/promote-install/)  
