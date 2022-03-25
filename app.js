@@ -142,14 +142,16 @@ function getPWADisplayMode() {
 //ИНИЦИАЛИЗАЦИЯ: Прослушивайте событие beforeinstallprompt https://web.dev/customize-install/#proslushivajte-sobytie-beforeinstallprompt  
 /* Сохраните ссылку на событие и обновите свой пользовательский интерфейс, 
    чтобы указать, что пользователь может установить ваше PWA.
+   ***
+   Событие возникает также при отмене установке
  */
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault(); //Предотвратить появление мини-информационной панели на мобильном телефоне
     deferredPrompt = e; // Сохраните событие, чтобы его можно было вызвать позже.
-    //showInstallPromotion(); //Показать собственный интерфейс установки PWA
-    showMsg('*** Обновите интерфейс уведомление об установке PWA ***');
+    //showInstallPromotion(); //Показать собственный интерфейс установки PWA, если он ещё не показан (при отмене установки)
+    showMsg('[beforeinstallprompt] *** Обновите интерфейс уведомление об установке PWA ***'); //
     console.log(`'beforeinstallprompt' event was fired.`); // При желании отправьте событие аналитики о том, что была показана реклама установки PWA.
 });
 
@@ -157,8 +159,8 @@ window.addEventListener('beforeinstallprompt', (e) => {
 btnInstall.addEventListener('click', async () => {
    
     //hideInstallPromotion(); // Скрыть собственную панель установки
-    showMsg('');
-    deferredPrompt.prompt(); // Показать приглашение установить == это ранее сохраненное событие
+    showMsg('*** УСТАНОВКА ПРИЛОЖЕНИЯ *** ');
+    deferredPrompt.prompt(); // Показать приглашение установить, это ранее сохраненное событие (параметры передавать нельзя)
     const {outcome} = await deferredPrompt.userChoice; // Ждем, пока пользователь ответит на приглашение
     console.log(`User response to the install prompt: ${outcome}`); // При желании отправьте событие аналитики с результатом по выбору пользователя
     deferredPrompt = null; // Мы использовали подсказку и не можем использовать ее снова, выбросьте ее
