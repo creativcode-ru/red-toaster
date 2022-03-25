@@ -38,6 +38,40 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+//уведомление от сервис-воркера, что он активирован
+
+// Прослушивание событий воркера
+// https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/oncontrollerchange
+// событие [controllerchange] происходит, когда воркер получает новый active рабочий процесс
+// это событие надо активировать внутри сервис воркера
+navigator.serviceWorker.addEventListener('controllerchange', function (event) {
+    console.log(
+        '[controllerchange] Произошло событие сервис-воркера "controllerchange": ', event
+    );
+
+    // Наблюдение за изменением состояния воркера
+    navigator.serviceWorker.controller.addEventListener('statechange',
+        function () {
+            //Обработчик события, вызываемый при срабатывании события statechange;
+            console.log('[controllerchange][statechange] ' +
+                'Произошло изменение состояния "statechange": ', this.state
+            );
+
+            // Если воркер в состоянии "activated", сообщить пользователю, что можно работать автономно!
+            if (this.state === 'activated') {
+                // Отобразить уведомление
+                showResult("можно перевести приложение в атономный режим");
+                //document.getElementById('offlineNotification')
+                //    .classList.remove('d-none');
+                /* ==> надо ещё завязаться на событие beforeinstallprompt
+                 * чтобы контролировать, не было ли установлено приложение ранее
+                 */
+            }
+        }
+    );
+});
+
+
 // Отображение сообщения
 function showResult(text) {
     document.querySelector("output").innerHTML = text;
@@ -142,8 +176,11 @@ function getPWADisplayMode() {
 //ИНИЦИАЛИЗАЦИЯ: Прослушивайте событие beforeinstallprompt https://web.dev/customize-install/#proslushivajte-sobytie-beforeinstallprompt  
 /* Сохраните ссылку на событие и обновите свой пользовательский интерфейс, 
    чтобы указать, что пользователь может установить ваше PWA.
-   ***
-   Событие возникает также при отмене установке
+   
+    ...Событие возникает также при отмене установке
+
+    Если приложение установлено, то событие не возникает, нельзя показывать интерфейс установки
+
  */
 let deferredPrompt;
 
@@ -159,10 +196,21 @@ window.addEventListener('beforeinstallprompt', (e) => {
 btnInstall.addEventListener('click', async () => {
    
     //hideInstallPromotion(); // Скрыть собственную панель установки
-    showMsg('*** УСТАНОВКА ПРИЛОЖЕНИЯ *** ');
+    showMsg('*** Установка приложения, подтвердите в окне браузера *** ');
     deferredPrompt.prompt(); // Показать приглашение установить, это ранее сохраненное событие (параметры передавать нельзя)
-    const {outcome} = await deferredPrompt.userChoice; // Ждем, пока пользователь ответит на приглашение
-    console.log(`User response to the install prompt: ${outcome}`); // При желании отправьте событие аналитики с результатом по выбору пользователя
+    const { outcome } = await deferredPrompt.userChoice; // Ждем, пока пользователь ответит на приглашение браузера
+    /*
+     deferredPrompt.userChoice
+        .then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
+     */
+    console.log(`Выбор пользователя при устновке приложения: ${outcome}`); // При желании отправьте событие аналитики с результатом по выбору пользователя
     deferredPrompt = null; // Мы использовали подсказку и не можем использовать ее снова, выбросьте ее
 });
 

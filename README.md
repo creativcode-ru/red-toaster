@@ -24,5 +24,6 @@
 ## Автономный режим приложения   "background_color": "#120000",
 [Check if a PWA is opened as a standalone app or not](https://www.amitmerchant.com/check-if-pwa-opened-as-standalone-app/)  
 [Как предоставлять собственный процесс установки в приложении, web.dev](https://web.dev/customize-install/#detect-launch-type)  
+[BeforeInstallPromptEvent, MDN](https://developer.mozilla.org/ru/docs/Web/API/BeforeInstallPromptEvent)  
 [Шаблоны продвижения установки PWA](https://web.dev/promote-install/)  
 [check if user has already installed PWA to homescreen on Chrome?](https://stackoverflow.com/questions/51735869/check-if-user-has-already-installed-pwa-to-homescreen-on-chrome)  

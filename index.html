@@ -24,9 +24,9 @@
 
     <style>
         @media all and (display-mode: standalone) {
-            .install-button {
-                display: none;
-            }
+            /* .install-button {
+                display: none;   ... надо использовать событие beforeinstallprompt 
+            }*/
             body {
                 background-color:cornsilk;
             }
@@ -36,7 +36,7 @@
 </head>
 <body>
     <h1>Red Toaster</h1>
-    <p>v0-47 beforeinstallprompt</p>
+    <p>v0-48 self.clients.claim()</p>
     <p>
         <button class="install-button" id="btnInstall">Установить как приложение</button> <br /><br />
     </p>
