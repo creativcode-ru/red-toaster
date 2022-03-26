@@ -187,15 +187,20 @@ let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault(); //Предотвратить появление мини-информационной панели на мобильном телефоне
     deferredPrompt = e; // Сохраните событие, чтобы его можно было вызвать позже.
-    //showInstallPromotion(); //Показать собственный интерфейс установки PWA, если он ещё не показан (при отмене установки)
-    showMsg('[beforeinstallprompt] *** Обновите интерфейс уведомление об установке PWA ***'); //
+    showInstallPromotion(); //Показать собственный интерфейс установки PWA
+    showMsg('[beforeinstallprompt] **1 Обновите интерфейс уведомление об установке PWA ***'); //
     console.log(`'beforeinstallprompt' event was fired.`); // При желании отправьте событие аналитики о том, что была показана реклама установки PWA.
 });
+
+function showInstallPromotion() {
+    console.log('показать кнопку установки приложения');
+    document.getElementById('btnInstall').classList.remove('d-hide'); //показать кнопку установки приложения
+    document.getElementById('msgInstalled').classList.add('d-hide');
+   }
 
 //УСТАНОВКА
 btnInstall.addEventListener('click', async () => {
    
-    //hideInstallPromotion(); // Скрыть собственную панель установки
     showMsg('*** Установка приложения, подтвердите в окне браузера *** ');
     deferredPrompt.prompt(); // Показать приглашение установить, это ранее сохраненное событие (параметры передавать нельзя)
     const { outcome } = await deferredPrompt.userChoice; // Ждем, пока пользователь ответит на приглашение браузера
@@ -212,7 +217,18 @@ btnInstall.addEventListener('click', async () => {
      */
     console.log(`Выбор пользователя при устновке приложения: ${outcome}`); // При желании отправьте событие аналитики с результатом по выбору пользователя
     deferredPrompt = null; // Мы использовали подсказку и не можем использовать ее снова, выбросьте ее
+    //hideInstallPromotion(); // Скрыть собственную панель установки, если не выбрали отмену (dismissed) - ...через событие...
 });
+
+//function hideInstallPromotion() {
+//    console.log('убрать панель установки приложения');
+//    document.getElementById('btnInstall').classList.add('d-hide'); //показать кнопку установки приложения
+//    document.getElementById('msgInstalled').classList.remove('d-hide');
+//    /* 
+//    var elem = document.getElementById("appPanel");
+//    elem.parentNode.removeChild(elem); //елемент удаляется из DOM дерева через своего родителя
+//    */
+//}
 
 //АВТОНОМНЫЙ РЕЖИМ. Определяйте, когда PWA было успешно установлено 
 window.addEventListener('appinstalled', () => {

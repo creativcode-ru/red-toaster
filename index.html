@@ -22,13 +22,19 @@
         <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
       <![endif] -->
 
+
+
     <style>
+        .d-hide {
+            display: none;
+        }
+
         @media all and (display-mode: standalone) {
-            /* .install-button {
-                display: none;   ... надо использовать событие beforeinstallprompt 
-            }*/
+            #appPanel {
+                display: none; /*скрыть показывать панель активации приложения*/
+            }
             body {
-                background-color:cornsilk;
+                background-color:aliceblue;
             }
         }
        
@@ -36,10 +42,15 @@
 </head>
 <body>
     <h1>Red Toaster</h1>
-    <p>v0-48 self.clients.claim()</p>
-    <p>
-        <button class="install-button" id="btnInstall">Установить как приложение</button> <br /><br />
-    </p>
+    <p>v0-49 d-hide</p>
+    <div id="appPanel">
+        <h5>Откройте эту страницу в приложении</h5>
+        <p>
+            <span id="msgInstalled" >Приложение уже установлено на этом устройстве.</span>
+            <button id="btnInstall" class="d-hide">Установить как приложение</button> <br /><br />
+        </p>
+    </div>
+    
     <p>
         <button id="btnTest">Ориентация экрана</button>   <button id="btnDisplayMode">Режим приложения</button><br /><br />
     </p>
